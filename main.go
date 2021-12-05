@@ -24,10 +24,10 @@ func main() {
 			logInvalidProblemNumber(problem)
 		}
 	case "2":
-		instructions := ReadFileLineByLine("./input02")
+		maneuvers := readManeuvers(ReadFileLineByLine("./input02"))
 		switch problem {
 		case "1":
-			D2P1(instructions)
+			D2P1(maneuvers)
 		case "2":
 			logInvalidProblemNumber(problem)
 		default:

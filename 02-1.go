@@ -41,9 +41,37 @@ Calculate the horizontal position and depth you would have after following the p
 
 */
 
-func D2P1(instructions []string) {
+type maneuver struct {
+	direction int
+	amount    int
+}
+
+const (
+	forward = iota
+	up
+	down
+)
+
+func D2P1(maneuvers []maneuver) {
 	forwardDistance := 0
 	depth := 0
+	for _, maneuver := range maneuvers {
+		switch maneuver.direction {
+		case forward:
+			forwardDistance += maneuver.amount
+		case up:
+			depth -= maneuver.amount
+		case down:
+			depth += maneuver.amount
+		default:
+			log.Fatal("Unknown direction specified.")
+		}
+	}
+	fmt.Println("deltaProduct:", forwardDistance*depth)
+}
+
+func readManeuvers(instructions []string) []maneuver {
+	maneuvers := make([]maneuver, 0)
 	for _, instruction := range instructions {
 		words := strings.Fields(instruction)
 		if len(words) != 2 {
@@ -55,16 +83,18 @@ func D2P1(instructions []string) {
 		if err != nil {
 			log.Fatal("Error converting distance to integer: " + err.Error())
 		}
+		m := maneuver{amount: intDistance}
 		switch direction {
 		case "forward":
-			forwardDistance += intDistance
+			m.direction = forward
 		case "up":
-			depth -= intDistance
+			m.direction = up
 		case "down":
-			depth += intDistance
+			m.direction = down
 		default:
-			log.Fatal("Unknown direction specified: " + direction)
+			log.Fatal("Invalid direction specified: " + direction)
 		}
+		maneuvers = append(maneuvers, m)
 	}
-	fmt.Println("deltaProduct:", forwardDistance*depth)
+	return maneuvers
 }
