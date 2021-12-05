@@ -29,7 +29,7 @@ func main() {
 		case "1":
 			D2P1(maneuvers)
 		case "2":
-			logInvalidProblemNumber(problem)
+			D2P2(maneuvers)
 		default:
 			logInvalidProblemNumber(problem)
 		}
